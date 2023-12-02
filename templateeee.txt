@@ -1,0 +1,118 @@
+<template>
+  <div class=""></div>
+</template>
+<script>
+
+/*--------------------------------------------------------------------*/
+// imports
+import ref from "vue";
+import { toRefs, toRef } from 'vue'
+/*--------------------------------------------------------------------*/
+export default {
+  name:" ",
+  components: {},
+  props: {
+    //name : type
+    title: String,
+  },
+  setup(props, { attrs, slots, emit, expose }) {
+    //variables
+
+    /*--------------------------------------------------------------------*/
+    //computed
+
+    /*--------------------------------------------------------------------*/
+    //methods
+
+    /*--------------------------------------------------------------------*/
+    //watchers
+
+    /*--------------------------------------------------------------------*/
+    return {};
+  },
+};
+</script>
+
+<style scoped></style>
+
+notes export default {
+  setup(props) {
+    // turn `props` into an object of refs, then destructure
+    const { title } = toRefs(props)
+    // `title` is a ref that tracks `props.title`
+    console.log(title.value)
+
+    // OR, turn a single property on `props` into a ref
+    const title = toRef(props, 'title')
+  }
+}
+
+
+<template>
+  <div>
+  <header>
+  <nav>
+    <div class="links">
+      <router-link :to="{name:'home'}">Home</router-link> |
+      <router-link :to="{name:'about'}">About</router-link> |
+      <router-link @click="openModal" :to="{}">Create</router-link>
+      <ModalBlog v-if="showHide">
+        <form @submit.prevent="handleSubmit">
+            <input type="text" v-model="myForm.myForm" placeholder="enter author">
+            <input type="text" v-model="myForm.title" placeholder="enter title">
+            <textarea v-model="myForm.text" placeholder="enter blog text"></textarea>
+             <input type="submit" value="submit">
+
+        </form>
+      </ModalBlog>
+    </div>
+  </nav>
+   </header>
+   <router-view/>
+   </div>
+</template>
+
+<script setup>
+// imports
+import { computed, onMounted, reactive, ref, watch, watchEffect } from "vue";
+
+/*--------------------------------------------------------------------*/
+//variables
+
+
+/*--------------------------------------------------------------------*/
+//computed                      
+
+
+/*--------------------------------------------------------------------*/
+//methods
+
+
+/*--------------------------------------------------------------------*/
+//watchers
+
+/*--------------------------------------------------------------------*/
+//definations
+const props=defineProps({
+  
+});
+const emit = defineEmits(['inFocus', 'submit'])
+
+// used with script setup and setup only cos children stuff r private in them while in options Api No
+defineExpose({ 
+  answer, // can't add any . . ,
+  answer2
+})
+
+/*--------------------------------------------------------------------*/
+</script>
+
+<template>
+
+</template>
+
+<style scoped>
+.read-the-docs {
+  color: #888;
+}
+</style>
