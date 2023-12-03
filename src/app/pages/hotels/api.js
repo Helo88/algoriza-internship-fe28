@@ -11,20 +11,21 @@ export const getHotels = async (
   price_max = "",
   page_number="1"
 ) => {
-  console.log(
-    "Api get hotels",
-    id,
-    " - ",
-    date2,
-    " - ",
-    date1,
-    guests,
-    sort_by,
-    rooms,
-    price_max,
-    price_min,
-    page_number
-  );
+
+  // console.log(
+  //   "Api get hotels",
+  //   id,
+  //   " - ",
+  //   date2,
+  //   " - ",
+  //   date1,
+  //   guests,
+  //   sort_by,
+  //   rooms,
+  //   price_max,
+  //   price_min,
+  //   page_number
+  // );
   const url = "searchHotels";
   let hotels = [];
   let error = "";
@@ -48,8 +49,8 @@ export const getHotels = async (
 
   try {
     const response = await client.get(`${url}`, options);
-    console.log(response);
-    console.log("get hotels ");
+    // console.log(response);
+    // console.log("get hotels ");
     if (response.status == "200") {
       // console.log(response.data.data.meta[0].title.split(' '))
       hotels = response.data.data.hotels;
@@ -70,7 +71,7 @@ export const sortHotels = async (
   guests = "1",
   rooms = "1"
 ) => {
-  console.log("api sort ", id, " - ", date2, " - ", date1, guests, rooms);
+  // console.log("api sort ", id, " - ", date2, " - ", date1, guests, rooms);
   const url = "getSortBy";
   let categories = [];
   let error = "";
@@ -88,9 +89,9 @@ export const sortHotels = async (
 
   try {
     const response = await client.get(`${url}`, options);
-    console.log("second Api");
+    // console.log("second Api");
     if (response.status == "200") {
-      console.log("sorts", response.data);
+      // console.log("sorts", response.data);
       categories = response.data.data;
     }
     console.log(categories);

@@ -24,7 +24,7 @@
           <li class="capitalize text-base" 
           :class="{ 'text-white': isHotelsPage ,'text-gray-800':!isHotelsPage }"
            v-for="route in routes" :key="route.name">
-            <router-link :to="route"> {{ route.name }} </router-link>
+            <router-link to="/"> {{ route.name }} </router-link>
           </li>
         </ul>
       </nav>
@@ -126,7 +126,7 @@ function handleUserDropDown(option) {
   }
 }
 function handleLogin() {
-  console.log('clicked')
+  // console.log('clicked')
   setTimeout(() => {
     router.push('login')
   },300)

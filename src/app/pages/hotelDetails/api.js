@@ -45,12 +45,12 @@ export const getHotelInfo = async (id) => {
 
   try {
     const response = await client.get(`${url}`, options);
-    console.log("getInfo Api");
+    // console.log("getInfo Api");
     if (response.status == "200") {
       console.log("info", response.data);
       description = response.data.data[0].description;
     }
-    console.log("des", description);
+    // console.log("des", description);
   } catch (error) {
     error = error.response;
   }

@@ -71,7 +71,7 @@ function handleShowHide() {
   localStorage.removeItem("first");
 }
 onMounted(() => {
-  console.log("popups mounted");
+  // console.log("popups mounted");
 });
 /*--------------------------------------------------------------------*/
 //watchers

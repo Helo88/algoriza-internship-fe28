@@ -24,8 +24,14 @@ const routes = [
       const hotelsDataStore = useHotelsStore();
       const { searchHotelsData } = storeToRefs(hotelsDataStore);
       const { updatehotelsSearchState } = useHotelsStore();
-      if (from.name != "home") {
-   //     console.log("from.name", from.name);
+      if (
+        from.name != "home" ||
+        from.name != "discover" ||
+        from.name != "about" ||
+        from.name != "contact" ||
+        from.name != "about" ||
+        from.name != "activities"
+      ) {
         localStorage.removeItem("id");
         localStorage.removeItem("cityName");
         localStorage.removeItem("inDate");
@@ -37,7 +43,6 @@ const routes = [
         localStorage.removeItem("page");
         localStorage.removeItem("totalresults");
         updatehotelsSearchState();
-      
       }
       next();
    
@@ -69,7 +74,7 @@ const routes = [
     component: Hotels,
     beforeEnter: (to, from, next) => {
       const isAuthenticated = isUserAuthenticated();
-      console.log(isAuthenticated)
+      // console.log(isAuthenticated)
       if (isAuthenticated === false) {
         localStorage.setItem("destination", to.name);
         //redirect in home and delete it

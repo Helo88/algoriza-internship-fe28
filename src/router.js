@@ -31,7 +31,7 @@ const routes = [
   
         }
       } else {
-        console.log("befor each displayz home route");
+        // console.log("befor each displayz home route");
       }
       next();
     },
@@ -46,7 +46,7 @@ const routes = [
     beforeEnter: ((to, from, next) => {
       const isAuthenticated = isUserAuthenticated();
       if (isAuthenticated) {
-        console.log(isAuthenticated)
+        // console.log(isAuthenticated)
        next({ name: "home" });
       }
        next()

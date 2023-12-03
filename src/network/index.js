@@ -7,7 +7,7 @@ const config = {
 };
 
 const headers = {
-  "X-RapidAPI-Key": "d4e1898118msh44d131206ce5f53p15bea3jsna18ac320fbc9",
+  "X-RapidAPI-Key": "d39fd6f8c1mshc2a0925bd27ee2cp1145f3jsn80809e062b80",
   "X-RapidAPI-Host": "booking-com15.p.rapidapi.com",
 };
 // const token = localStorage.getItem("token");

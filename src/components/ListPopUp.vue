@@ -32,17 +32,16 @@ const props = defineProps({
 /*--------------------------------------------------------------------*/
 //computed
 const isEmptyCitieslist = computed(() => {
-  console.log(props.data )
   return props.data?.size==0?true:false
 })
 /*--------------------------------------------------------------------*/
 //methods
 onMounted(() => {
-    console.log("my data of cities", props.data);
+    // console.log("my data of cities", props.data);
  
 });
 function handleCityInput(city, id) {
-  console.log("selected");
+  // console.log("selected");
   emit("handle-city-input", city, id);
 }
 

@@ -272,7 +272,6 @@ import { getHotels, sortHotels } from "./api.js";
 const { props, attrs } = defineProps({});
 const emit = defineEmits(["searchSubmitted", ""]);
 /*-------------------------------------------------------*/
-import { myObj } from "./obj";
 //variables
 const mounted = ref(false);
 const pageNumber = ref(

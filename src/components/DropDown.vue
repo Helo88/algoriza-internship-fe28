@@ -38,7 +38,7 @@ onMounted(() => {
   //console.log("drop down menu", data);
 });
 function handleInput(input) {
-  console.log("selected input ",input);
+  // console.log("selected input ",input);
   emit("user-dropdown-selected", input);
 }
 
