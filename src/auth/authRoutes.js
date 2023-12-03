@@ -6,7 +6,7 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: logIn,
+    component: LogIn,
     props: true,
   },
 ];
