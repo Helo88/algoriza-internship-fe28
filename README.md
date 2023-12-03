@@ -1,4 +1,4 @@
-# Vue Vite Booking App view it from here [https://vercel.com/helo88s-projects/algoriza-internship-fe28/Fzs8gdRpYqH24Z8aGzsEvVbTLXVq]
+# Vue Vite Booking App view it from here [https://algoriza-internship-fe28.vercel.app/]
 
 ## Overview
 
