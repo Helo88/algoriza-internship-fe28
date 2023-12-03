@@ -6,11 +6,13 @@ import Layout from "../layout/Layout.vue";
 import Home from "../pages/home/Home.vue";
 import NotFound from '../pages/extra/NotFound.vue'
 
-
+ 
 const Hotels = () => import("../pages/hotels/Hotels.vue");
 const Hotel = () => import("../pages/hotelDetails/Hotel.vue");
 const Trips = () => import("../pages/trips/Trips.vue");
 const Checkout =()=>import("../pages/checkout/Checkout.vue")
+import { isUserAuthenticated } from "../../auth/composables.js";
+
 
 const routes = [
   {
@@ -23,7 +25,7 @@ const routes = [
       const { searchHotelsData } = storeToRefs(hotelsDataStore);
       const { updatehotelsSearchState } = useHotelsStore();
       if (from.name != "home") {
-        console.log("from.name", from.name);
+   //     console.log("from.name", from.name);
         localStorage.removeItem("id");
         localStorage.removeItem("cityName");
         localStorage.removeItem("inDate");
@@ -35,10 +37,10 @@ const routes = [
         localStorage.removeItem("page");
         localStorage.removeItem("totalresults");
         updatehotelsSearchState();
-        next();
+      
       }
       next();
-      return false;
+   
     },
   },
   {
@@ -65,6 +67,17 @@ const routes = [
     path: "/hotels",
     name: "hotels",
     component: Hotels,
+    beforeEnter: (to, from, next) => {
+      const isAuthenticated = isUserAuthenticated();
+      console.log(isAuthenticated)
+      if (isAuthenticated === false) {
+        localStorage.setItem("destination", to.name);
+        //redirect in home and delete it
+        next({ name: "login" });
+      } else {
+        next()
+      }
+    }
   },
   {
     path: "/hotel/:id/:rate/:count",
@@ -89,14 +102,25 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
-router.beforeEach((to) => {
-  console.log('imma running ',to.name)
-  // if (to.name !== 'home') { 
-  //   console.log('shit login ',to.name)
-  // return '/login'
-  // }
-  // else {
-  //   console.log("nothing at all")
-  // }
-})
+
+// router.beforeEach((to) => {
+//    //before entering any app page rather than home check 
+//     console.log(" kickoff app routes ",to.name);
+//       // const isAuthenticated = isUserAuthenticated();
+   
+//   // if (to.name !== "home") {
+//   //   const isAuthenticated = isUserAuthenticated();
+//   //      console.log(isAuthenticated);
+//   //   // if token doesn't exist or altered -> login
+//   //   if (isAuthenticated === false) {
+//   //     console.log("get in app ");
+//   //     localStorage.setItem("destination", to.name);
+//   //     //redirect in home and delete it
+//   //     next({ name: "login" });
+//   //   }
+//   // }
+//   //       else {
+//   //         next()
+//   //       }
+// })
 export default router;

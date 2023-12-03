@@ -1,13 +1,15 @@
 <template>
   <div class="bg-zinc-100">
-    <div class="lg:mx-[100px] p-1 border-2 border-rose-300">
+    <div class="lg:mx-[100px] p-1 border-2 ">
       <h1 class="text-zinc-900 text-[32px] font-semibold mt-[60px] mb-[30px]">
         Secure your reservation
       </h1>
       <Warning class="mb-[30px]" />
-      <div class="flex flex-col items-center lg:items-start gap-y-8 lg:flex-row gap-x-[30px] mb-[141px] ">
+      <div
+        class="flex flex-col items-center lg:items-start gap-y-8 lg:flex-row gap-x-[30px] mb-[141px]"
+      >
         <main class="flex-1">
-          <form action="">
+          <form @submit="handleBookingSuccess">
             <div class="mb-[30px] bg-white rounded-md">
               <header
                 class="px-6 py-[18px] bg-blue-500 flex gap-x-4 justify-start items-center rounded-tl-md rounded-tr-md"
@@ -91,7 +93,7 @@
                 </div>
               </div>
             </div>
-            <div class="mb-[30px] bg-white rounded-md ">
+            <div class="mb-[30px] bg-white rounded-md">
               <header
                 class="px-6 py-[18px] bg-blue-500 flex gap-x-4 justify-start items-start rounded-tl-md rounded-tr-md"
               >
@@ -141,7 +143,7 @@
                       <input
                         required
                         placeholder="9923464374822293"
-                        type="text"
+                        type="number"
                         class="text-md block w-2/3 px-3 py-2 border-1 pb-3 placeholder:text-zinc-700 bg-zinc-100 rounded focus:placeholder-gray-500 focus:bg-white focus:border-blue-500 focus:outline-none"
                       />
                       <img src="/images/checkout/tick.png" alt="" />
@@ -264,7 +266,7 @@
             :rate="Number(props.rate)"
             :reviewCount="props.reviews"
           />
-          <div class="mt-[30px] ">
+          <div class="mt-[30px]">
             <div class="p-[18px] bg-green-300 rounded-tl-md rounded-tr-md">
               <h3 class="text-neutral-900 text-base font-medium">
                 Price Details
@@ -272,35 +274,63 @@
             </div>
             <div class="bg-white rounded-md">
               <div class="py-5 px-[18px] flex flex-col gap-y-3">
-              <div class="flex justify-between text-neutral-600 text-sm font-normal">
-                <span>1 room X 2 nights</span>
-                <span>$ 120.32</span>
+                <div
+                  class="flex justify-between text-neutral-600 text-sm font-normal"
+                >
+                  <span>1 room X 2 nights</span>
+                  <span>$ 120.32</span>
+                </div>
+                <div
+                  class="flex justify-between text-neutral-600 text-sm font-normal"
+                >
+                  <span>Tax and service fees</span>
+                  <span>$8.32</span>
+                </div>
               </div>
-              <div class="flex justify-between text-neutral-600 text-sm font-normal">
-                <span>Tax and service fees</span>
-                <span>$8.32</span>
-              </div>
-            </div>
-            <hr />
+              <hr />
 
-            <div class="py-5 px-[18px] flex justify-between" >
-              <span class="text-neutral-900 text-base font-medium">Total </span>
-              <span class="text-zinc-800 text-xl font-semibold">$ 130</span>
-            </div>
+              <div class="py-5 px-[18px] flex justify-between">
+                <span class="text-neutral-900 text-base font-medium"
+                  >Total
+                </span>
+                <span class="text-zinc-800 text-xl font-semibold">$ 130</span>
+              </div>
             </div>
           </div>
         </aside>
       </div>
     </div>
   </div>
+  <Modal
+    v-if="viewModal"
+    @popup-closed="closePopup"
+    title="Booking Successful"
+    text="Congratulations your reservation has been made. You will be notified 2 days prior the date"
+    btntext="View trip"
+  >
+    <div
+      class="mt-[50px] mb-[45px] mx-20 px-10 py-5 bg-emerald-300 bg-opacity-20 rounded-[10px]"
+    >
+      <img
+        class="w-full h-full"
+        src="/images/popups/booking.png"
+        alt="booking sucess image"
+      />
+    </div>
+  </Modal>
 </template>
 <script setup>
 // imports
 import { computed, onMounted, reactive, ref, watch, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+
 import Warning from "../../../components/Warning.vue";
 import CustomButton from "../../../components/CustomButton.vue";
 import TripCard from "../../components/TripCard.vue";
+import { formatFullNameDate } from "../../composables.js";
+import { useHotelsStore } from "../../store";
+import Modal from "../../../components/Modal.vue";
 /*--------------------------------------------------------------------*/
 //definations
 const props = defineProps({
@@ -311,15 +341,28 @@ const props = defineProps({
 
 /*--------------------------------------------------------------------*/
 //variables
-onMounted(() => {
-  console.log(props);
-});
+// const hotelsDataStore = useHotelsStore();
+// const { searchHotelsData } = storeToRefs(hotelsDataStore);
+const router = useRouter();
+const viewModal = ref(false);
 /*--------------------------------------------------------------------*/
 //computed
 
 /*--------------------------------------------------------------------*/
 //methods
+onMounted(() => {
+  console.log(props);
+});
+function closePopup() {
+  viewModal.value = false;
+  router.push("/trips");
+}
+function handleBookingSuccess(e) {
+  e.preventDefault();
+  window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
+  viewModal.value = true;
+}
 /*--------------------------------------------------------------------*/
 //watchers
 

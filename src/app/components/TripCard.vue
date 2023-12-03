@@ -7,13 +7,13 @@
       src="/images/hotel/Rectangle29.png"
       alt="hortel photo"
       class="h-[180px] max-h-[200px] rounded-[5px]"
-      :class="{'w-full max-w-full':isCheckoutPage,'w-3/4 lg:w-[285px] lg:max-w-[285px]':isCheckoutPage==false}"
+      :class="{'w-full max-w-full':isCheckoutPage,'w-1/2 lg:w-[285px] lg:max-w-[285px]':isCheckoutPage==false}"
       loading="lazy"
     />
     <div class="h-auto w-full  lg:flex-1 flex flex-col justify-between">
         <div class="">
           <h3
-            class="text-zinc-900 text-xl font-medium max-w-[380px] line-clamp-1"
+            class="text-zinc-900 text-xl font-medium max-w-[380px] line-clamp-1 "
             :title="props.hotelName"
           >
             {{ props.hotelName }}
@@ -29,14 +29,14 @@
             >
           </div>
         </div>      
-      <div class="flex justify-between items-end  mt-5">
-       <div class="flex flex-col gap-y-2">
+      <div class="flex  flex-col items-center  lg:flex-row lg:justify-between lg:items-end  mt-5">
+       <div class="flex flex-col gap-y-2 items-center lg:items-start">
          <span class="text-rose-500 text-sm font-normal">Non refunable</span>
-         <span class="text-neutral-600 text-sm font-normal">Check in: {{ props.checkIn }}</span>
-         <span class="text-neutral-600 text-sm font-normal">Check out: {{ props.checkOut }}</span>
-        <span class="text-neutral-600 text-sm font-normal">2 nights stay</span>
+         <span class="text-neutral-600 text-sm font-normal">Check in: {{ formatFullNameDate(inDate) }}</span>
+         <span class="text-neutral-600 text-sm font-normal">Check out: {{ formatFullNameDate(outDate) }}</span>
+        <span class="text-neutral-600 text-sm font-normal">{{ getDaysDifference }} nights stay</span>
        </div>
-        <div class="text-right" v-if="isCheckoutPage==false">
+        <div class="text-center lg:text-right" v-if="isCheckoutPage==false">
           <span
             class="line-through text-rose-500 text-sm font-meduim pr-2"
             >$150</span
@@ -57,20 +57,17 @@
 // imports
 import { computed, onMounted, reactive, ref, watch, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { storeToRefs } from "pinia";
-import StarIcon from "../../components/svgs/StarIcon.vue";
 import CustomButton from "../../components/CustomButton.vue";
-
+import StarIcon from "../../components/svgs/StarIcon.vue";
 //functions
-import { useHotelsStore } from "../store.js";
+
+import {formatFullNameDate}from "../composables"
 /*--------------------------------------------------------------------*/
 //definations
 const props = defineProps({
   hotelName: String,
   reviewCount: Number,
     rate: Number,
-    checkIn: String,
-  checkOut:String
 });
 const emit= defineEmits(['view-trip-details'])
 /*--------------------------------------------------------------------*/
@@ -79,12 +76,10 @@ const emit= defineEmits(['view-trip-details'])
 //router
 const route = useRoute();
 const router = useRouter();
-//store
-const hotelsDataStore = useHotelsStore();
-const { tripsList } = storeToRefs(hotelsDataStore);
 
 
-
+const inDate=ref("")
+const outDate=ref("")
 
 
 /*--------------------------------------------------------------------*/
@@ -93,12 +88,20 @@ const { tripsList } = storeToRefs(hotelsDataStore);
 const isCheckoutPage = computed(() => {
   return ["checkout"].includes(route.name);
 });
+const getDaysDifference = computed(() => {
+  const date1 = new Date(inDate.value)
+  const date2=new Date(outDate.value)
+  const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
+  const differenceMs = Math.abs(date1 - date2);
+  return Math.round(differenceMs / oneDay);
+});
 /*--------------------------------------------------------------------*/
 //methods
 onMounted(() => {
 
+  inDate.value = localStorage.getItem('inDate') 
+  outDate.value = localStorage.getItem('outDate') 
 
-  
 });
 
 /*--------------------------------------------------------------------*/

@@ -18,21 +18,20 @@ const routes = [
     children: appRoutes.options.routes,
     beforeEnter: (to, from, next) => {
    //before entering any app page rather than home check 
-      //console.log("displayimng tokrn", token, "-  ", isAuthenticated);
-       const isAuthenticated = isUserAuthenticated();
+      const isAuthenticated = isUserAuthenticated();
       if (to.name !== "home") {
         // if token doesn't exist or altered -> login
         if (isAuthenticated === false) {
-          console.log("get in ");
           localStorage.setItem("destination", to.name);
           //redirect in home and delete it
           next({ name: "login" });
+        
         } else {
           console.log("user autheticated ");
-      //    localStorage.setItem('authenticated','true')
+  
         }
       } else {
-        console.log("home route");
+        console.log("befor each displayz home route");
       }
       next();
     },

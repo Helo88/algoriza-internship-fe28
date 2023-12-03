@@ -1,12 +1,8 @@
 <template>
-  <div class="2xl:max-w-[1240px] h-[200px] border-4 b border-orange-300" :class="{'bg-gradient-to-b from-blue-700 to-blue-800' :isHotelsPage}">
+  <div class="2xl:max-w-[1240px] h-[200px]" :class="{'bg-gradient-to-b from-blue-700 to-blue-800' :isHotelsPage}">
     <NavBar></NavBar>
     <router-view> </router-view>
-<!-- bg-gradient-to-b from-blue-700 to-blue-800 -->
-    <!-- <br>
-    <br>
-    <Warning></Warning>
-    <br> -->
+
    
 
     <Footer></Footer>

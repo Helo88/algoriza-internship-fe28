@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import axios from "redaxios";
 export const useHotelsStore = defineStore("hotelsDataStore", {
   // searchformData
-  tempArr: JSON.parse(localStorage.getItem("trips")),
+  // tempArr: JSON.parse(localStorage.getItem("trips")),
   state: () => ({
     searchHotelsData: {
       id: localStorage.getItem("id"),
@@ -33,7 +33,6 @@ export const useHotelsStore = defineStore("hotelsDataStore", {
       inDateFormatted = "",
       outDateFormatted = ""
     ) {
-      console.log("hereeeeeeeeeeeeeeeee");
 
       localStorage.setItem("id", id);
       localStorage.setItem("cityName", name);
@@ -53,7 +52,6 @@ export const useHotelsStore = defineStore("hotelsDataStore", {
       this.searchHotelsData.outDateFormatted = outDateFormatted;
     },
     updateTripsList(hotelId,hotelName, rate, reviewCount, checkIn, checkOut) {
-      console.log("yes,pinia");
       this.tripsList.push({hotelId, hotelName, rate, reviewCount, checkIn, checkOut });
     },
   },

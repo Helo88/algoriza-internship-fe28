@@ -1,5 +1,15 @@
 <template>
-  <div class="bg-white min-h-screen font-sans">
+  <div class="bg-white min-h-screen font-sans ">
+     <header
+    class="mx-[100px] relative py-3"
+    
+  >
+        <PlaneIcon  class="mr-1" :color="'#3B82F6'" />
+        <span
+          class="text-gray-900 text-lg font-meduim"
+          >my Dream Place</span
+        >
+    </header>
     <div class="max-w-sm mx-auto px-6">
       <div class="relative flex flex-wrap">
         <div class="w-full relative">
@@ -94,7 +104,7 @@
 
                 <button
                   @click="submitLoginForm"
-                  class="mt-[33px] text-[15px] font-medium bg-blue-500 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black"
+                  class="mt-[33px] text-[15px] font-medium bg-blue-500 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-blue-500 hover:bg-white"
                 >
                   Login
                 </button>
@@ -115,7 +125,7 @@
 // imports
 import { computed, onMounted, reactive, ref, watch, watchEffect } from "vue";
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
-
+import PlaneIcon from "../../../components/svgs/PlaneIcon.vue";
 import { decodeToken, encodeToken } from "../../composables.js";
 import { useRouter } from "vue-router";
 /*--------------------------------------------------------------------*/
@@ -131,13 +141,11 @@ const router = useRouter();
 
 /*--------------------------------------------------------------------*/
 //methods
-onBeforeRouteLeave((to, from) => {
-      // const answer = window.confirm(
-      //   'Do you really want to leave? you have unsaved changes!'
-      // )
-   localStorage.setItem('first','true')
-      console.log("new func ,", to.name,from.name)
-    })
+// onBeforeRouteLeave((to, from) => {
+      
+//    localStorage.setItem('first','true')
+//       console.log("new func ,", to.name,from.name)
+//     })
 function submitLoginForm(e) {
   e.preventDefault();
 
@@ -162,8 +170,8 @@ function submitLoginForm(e) {
       "Password must be at least 8 characters with at least one number and one capital letter";
   } else {
   }
-  // !emailError.value && !passwordError.value
-  if (true) {
+  // 
+  if (!emailError.value && !passwordError.value) {
     //generate token //add expirey
     localStorage.setItem("email", email.value);
     localStorage.setItem("password", password.value);
@@ -174,6 +182,7 @@ function submitLoginForm(e) {
    // console.log(decodeToken(token));
     const destination = localStorage.getItem("destination");
     localStorage.removeItem("destination");
+    localStorage.setItem('first',true)
     router.push(destination ? destination : "/");
   }
 }

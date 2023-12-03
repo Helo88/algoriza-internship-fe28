@@ -1,10 +1,10 @@
 <template>
     <ul
-      class="w-[206px] border border-neutral-300 rounded-[10px] shadow bg-white absolute left-[12px] -bottom-[128px]"
-      >
+      class=" w-[206px] border border-neutral-300 rounded-[10px] shadow bg-white absolute left-[12px] ]"
+      :class="{'-bottom-[40px]':isEmptyCitieslist==true ,'-bottom-[128px]':isEmptyCitieslist==false}">
       <li class="p-[10px] border-b-[1px] border-zinc-100 last:border-b-0 text-center
        text-neutral-600 text-[13px] font-normal cursor-pointer hover:bg-zinc-100" 
-       v-if="!data || data.length==0">No cities available</li>
+       v-if="isEmptyCitieslist">No cities available</li>
       <li v-for="[key,value] in data" :key="key"
        class="p-[10px] border-b-[1px] border-zinc-100 last:border-b-0 text-center text-neutral-600 text-[13px] font-normal cursor-pointer hover:bg-zinc-100"
        @click='handleCityInput(key,value)'>
@@ -31,11 +31,14 @@ const props = defineProps({
 
 /*--------------------------------------------------------------------*/
 //computed
-
+const isEmptyCitieslist = computed(() => {
+  console.log(props.data )
+  return props.data?.size==0?true:false
+})
 /*--------------------------------------------------------------------*/
 //methods
 onMounted(() => {
-    console.log("my data of cities", props);
+    console.log("my data of cities", props.data);
  
 });
 function handleCityInput(city, id) {

@@ -1,11 +1,11 @@
 <template>
   <div
-    class="px-3 py-2 w-full bg-zinc-100 rounded justify-start items-center inline-flex relative"
+    class="px-2 py-2  bg-zinc-100 rounded justify-start items-center flex relative"
     @click="handleSearchCity"
   >
     <img
       :src="`/icons/searchForm/${props.icon}`"
-      class="w-5 h-5 mr-2.5"
+      class="w-5 h-5 mr-1.5"
       alt="search icon"
     />
     <input
@@ -20,7 +20,7 @@
     <Datepicker	
       :lower-limit="startFromDate"
       v-if="props.purpose == 'picker'"
-      class="	w-full text-neutral-600 text-[13px] bg-red-100 font-normal input-block outline-none focus:outline-none"
+      class="	w-full text-neutral-600 text-[13px] bg-inherit font-normal input-block outline-none focus:outline-none"
       :placeholder="props.placeholder"
       v-model="picked"
       @closed="getDate"
@@ -34,7 +34,8 @@
       :class="{ 'rotate-180': arrowRotate }"
       alt="down arrow icon"
     />
-    <slot    class="block bg-blue-200 w-full absolute top-0 left-0 h-[200px] text-red-200">
+    <!-- error slot -->
+    <slot    class="">
       
     </slot>
   </div>

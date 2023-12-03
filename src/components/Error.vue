@@ -1,8 +1,7 @@
 <template>
-  <span
-    class="py-1 px-5 text-[13px] bg-red-600 text-white rounded-[10px] w-full absolute left-3 -bottom-[40px]"
-    >{{ props.text }}</span
-  >
+  <div
+    class="py-[5px] px-5 text-[13px] bg-red-500 text-white  min-w-max absolute -left-2 -bottom-[40px] z-30"
+    >{{ props.text }}</div>
 </template>
 
 <script setup>

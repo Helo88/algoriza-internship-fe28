@@ -22,7 +22,7 @@ import { onMounted } from "vue";
 //definations
 const props = defineProps({ label: String, items: Array, more: String });
 onMounted(() => {
-  console.log(props);
+//  console.log(props);
 });
 
 /*--------------------------------------------------------------------*/

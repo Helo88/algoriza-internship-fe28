@@ -1,19 +1,14 @@
 <template>
-  <div class="pt-20" :class="{'bg-zinc-100':route.name==='hotel'||'trips' }" v-if="isCheckoutPage==false">
-    <!-- <div class="footer-header mb-20 border border-black text-center">
-      <h3
-        class="mb-4 text-neutral-900 text-[28px] font-semibold"
-      >
-        Explore the world with My Dream place
-      </h3>
-      <h5
-        class="text-blue-500 text-base font-normal"
-      >
-        Discover new places and experiences
-      </h5>
-    </div> -->
-    <div class="footer-body mx-[100px] grid grid-cols-1 md:grid-cols-5 text-center md:text-start gap-3"
-    
+  <div
+    class="pt-20"
+    :class="{
+      'bg-zinc-100': isZincBg === true,
+      'bg-white': isZincBg === false,
+    }"
+    v-if="isCheckoutPage === false"
+  >
+    <div
+      class="footer-body mx-[100px] grid grid-cols-1 md:grid-cols-5 text-center md:text-start gap-x-3 mb-[60px]"
     >
       <div class="pt-1">
         <img
@@ -22,7 +17,7 @@
           class="inline-block w-6 h-6 mr-1"
         />
         <span class="text-gray-900 text-lg font-medium">my Dream Place</span>
-        <p class="text-neutral-600 text-sm font-normal mt-2">
+        <p class="text-neutral-600 text-sm font-normal mt-2 w-[80%]">
           Your next goto companion for travel
         </p>
       </div>
@@ -34,6 +29,11 @@
         />
       </template>
     </div>
+    <p
+      class="text-right bg-gray-200 py-[10px] px-[200px] text-neutral-600 text-sm font-normal"
+    >
+      @ my Dream Place 2022
+    </p>
   </div>
 </template>
 <script setup>
@@ -80,11 +80,14 @@ const footerItems = [
     ],
   },
 ];
-const route=useRoute()
+const route = useRoute();
 /*--------------------------------------------------------------------*/
 //computed
 const isCheckoutPage = computed(() => {
   return ["checkout"].includes(route.name);
+});
+const isZincBg = computed(() => {
+  return ["checkout", "trips","hotel"].includes(route.name);
 });
 /*--------------------------------------------------------------------*/
 //methods
@@ -94,15 +97,8 @@ const isCheckoutPage = computed(() => {
 
 /*--------------------------------------------------------------------*/
 //definations
-const props = defineProps({});
-// used with script setup and setup only cos children stuff r private in them while in options Api No
-defineExpose({});
 
 /*--------------------------------------------------------------------*/
 </script>
 
-<style scoped>
-.read-the-docs {
-  color: #888;
-}
-</style>
+<style scoped></style>

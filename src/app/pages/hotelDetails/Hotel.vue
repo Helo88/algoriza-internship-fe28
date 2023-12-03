@@ -36,8 +36,8 @@
         <div
           class="flex flex-col items-center lg:items-start lg:flex-row justify-between gap-8"
         >
-          <section class="pt-10 w-full lg:flex-1 border-4 border-yellow-400">
-            <header class="pb-8 w-full border-t-2">
+          <section class="pt-10 w-full lg:flex-1 ">
+            <header class="pb-8 w-full ">
               <h2
                 class="text-zinc-900 text-[32px] font-semibold mb-3 line-clamp-1"
                 title="displayedHotel.details.hotel_name"
@@ -119,10 +119,10 @@
                 <h2 class="text-neutral-900 text-lg font-medium mb-6">
                   Top Facilities
                 </h2>
-                <ul class="">
-                  <li
-                    v-for="(item, index) in displayedHotel.details
-                      .facilities_block.facilities"
+                <div v-if="displayedHotel.details?.facilities_block?false:true" >No Facilities Available</div>
+                <ul v-else>
+                  <li 
+                    v-for="(item, index) in displayedHotel.details.facilities_block.facilities"
                     :key="item.icon"
                     class="flex"
                   >
@@ -219,7 +219,7 @@
         <h2 class="text-neutral-900 text-2xl font-semibold mb-8">
           Available rooms
         </h2>
-        <section class="bg-inherit border-4 border-rose-400">
+        <section class="bg-inherit">
           <div
             class="flex flex-col gap-y-5 justify-center items-center lg:flex-row lg:items-start lg:justify-between lg:gap-x-5 lg:gap-y-5"
             :class="{ 'flex-wrap': shouldFlexWrap }"
@@ -248,7 +248,7 @@
             </div>
             <!-- displayedHotel.details.available_rooms -->
             <RoomCard
-              v-for="room in 2"
+              v-for="room in displayedHotel.details.available_rooms"
               :key="room"
               @reserved="handelReservation"
             />
@@ -269,7 +269,6 @@ import { storeToRefs } from "pinia";
 import { useHotelsStore } from "../../store";
 import { getHotelDetails, getHotelInfo } from "./api.js";
 
-import { hotel, d } from "./obj.js";
 import RoomCard from "./components/RoomCard.vue";
 import PlaneIcon from "../../../components/svgs/PlaneIcon.vue";
 import StarIcon from "../../../components/svgs/StarIcon.vue";
@@ -299,12 +298,12 @@ const { updateTripsList } = useHotelsStore();
 //hotel & error
 const displayedHotel = ref({
   // temp init
-  details: { ...hotel }, //to be empty object
+  details: {}, //to be empty object
   error: "",
 });
 const displayedHotelInfo = ref({
   //:""
-  description: d.description,
+  description:"",
   error: "",
 });
 
@@ -324,14 +323,11 @@ const shouldFlexWrap = computed(() => {
 /*--------------------------------------------------------------------*/
 //methods
 onMounted(() => {
-  console.log("hotel page mounts", hotelRate.value, hotelReviews.value);
-  console.log(displayedHotel.value.details);
-
-  // handleHotelInfo()
-  // handleHotelDetails()
+  handleHotelInfo()
+  handleHotelDetails()
 });
 async function handleHotelDetails() {
-  // is suppose to add loader heres
+  //  suppose to add loader heres
 
   const temp = await getHotelDetails(
     props.id,
@@ -348,7 +344,7 @@ async function handleHotelInfo() {
   //  suppose to add loader heres
 
   const temp = await getHotelInfo(props.id);
-  displayedHotelInfo.value.description = temp.details;
+  displayedHotelInfo.value.description = temp.description;
   displayedHotelInfo.value.error = temp.error;
   console.log(displayedHotelInfo.value.description);
 }
@@ -376,6 +372,7 @@ function handelReservation() {
 function updateStorageList() {
   let list = JSON.parse(localStorage.getItem("trips"));
   const newTrip = {
+    hotelId:hotelId.value,
     hotelName: displayedHotel.value.details.hotel_name,
     rate: hotelRate.value,
     reviewCount: hotelReviews.value,

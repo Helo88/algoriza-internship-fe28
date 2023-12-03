@@ -4,10 +4,7 @@
     <form
       id="myformd"
       action=""
-      class="w-full  h-auto px-3 py-[10px] bg-white rounded-lg 
-      shadow relative lg:absolute lg:-bottom-2 left-0 trnasform 
-     flex justify-start gap-x-3.5 gap-y-3 flex-col 
-      lg:flex-row mt-44"
+      class="w-full h-auto px-3 py-[10px] bg-white rounded-lg shadow relative lg:absolute lg:-bottom-2 left-0 trnasform flex justify-start gap-x-3.5 gap-y-3 flex-col lg:flex-row mt-44"
     >
       <!-- 🛑🛑🛑 there is an issue here lg:w-1/4 doesn't work seems like relative width doesn't work with flex -->
       <!-- in this search city the input itself wasn't used the value came from list -->
@@ -17,7 +14,7 @@
         type="text"
         placeholder="Where are you going?"
         arrow="true"
-        class="lg:min-w-max"
+        class="w-full lg:w-[185px]"
         :class="{ 'border border-red-500': searchFormErrors.cityError }"
         @click="ShowCitiesList"
         :model="cityInput"
@@ -31,6 +28,7 @@
         role="date1"
         placeholder="Check in date"
         @close="(date) => (checkInInput = date)"
+        class="flex-1"
         :class="{ 'border border-red-500': searchFormErrors.date1Error }"
       >
         <Error v-show="searchFormErrors.date1Error" :text="errorMsg"></Error>
@@ -42,6 +40,7 @@
         role="date2"
         placeholder="Check out date"
         @close="(date) => (checkOutInput = date)"
+        class="flex-1"
         :class="{ 'border border-red-500': searchFormErrors.date2Error }"
       >
         <Error v-show="searchFormErrors.date2Error" :text="errorMsg"></Error>
@@ -53,6 +52,7 @@
         placeholder="Guests"
         :model="searchHotelsData.guests"
         @get="(data) => (guestsInput = data)"
+        class="flex-1"
       ></SearchInput>
       <SearchInput
         icon="bed.svg"
@@ -60,20 +60,25 @@
         placeholder="Rooms"
         :model="searchHotelsData.rooms"
         @get="(data) => (roomsInput = data)"
+        class="flex-1"
       ></SearchInput>
       <CustomButton
         text="Search"
-        class="h-full w-full lg:min-w-max"
+        class="flex-1"
         @click="handleHomeSearchForm"
       ></CustomButton>
       <!-- 🛑 til now this list will appear even if it is empty -->
       <ListPopUp
-        v-if="viewCityList"
+        v-show="viewCityList"
         :data="getCitiesData.cities"
         @handle-city-input="getSelectedCity"
       ></ListPopUp>
       <!-- all error postins needed to be handled -->
-      <!-- <Error v-show="searchFormErrors.fromError" :text="fromError"></Error> -->
+      <Error
+        v-show="searchFormErrors.formError"
+        :text="formError"
+        class="right-0 -bottom-14 w-3/4"
+      ></Error>
     </form>
   </div>
 </template>
@@ -93,7 +98,7 @@ import Error from "../../../components/Error.vue";
 import Datepicker from "vue3-datepicker";
 
 //functions
-import formatDate from "../../composables.js";
+import { formatDate } from "../../composables.js";
 import { getCities } from "./api";
 import { getHotels } from "../hotels/api";
 import { useHotelsStore } from "../../store";
@@ -118,14 +123,15 @@ const guestsInput = ref(searchHotelsData.value.guests);
 const roomsInput = ref(searchHotelsData.value.rooms);
 
 const viewCityList = ref(false);
-
+//this isn't
 const errorMsg = "this field is required";
-const fromError = "Checkout and checkin can't be at the same day";
+//this msg changes based on 2 conditions
+const formError = ref("");
 const searchFormErrors = reactive({
   cityError: false,
   date1Error: false,
   date2Error: false,
-  fromError: false,
+  formError: false,
 });
 
 /*--------------------------------------------------------------------*/
@@ -135,13 +141,13 @@ const searchFormErrors = reactive({
 //methods
 async function handleCitySearch() {
   getCitiesData.value = await getCities();
-  console.log("my map ", getCitiesData.value.cities);
+  // console.log("my cities map ", getCitiesData.value.cities);
 }
 onMounted(() => {
   //to fetch cities dropdown immediately
- 
- //handleCitySearch();
-  console.log("my ffff ", searchHotelsData.value, route.name);
+
+  handleCitySearch();
+
 });
 // get city and id from emit
 function getSelectedCity(city, id) {
@@ -153,38 +159,70 @@ function getSelectedCity(city, id) {
 function ShowCitiesList() {
   viewCityList.value = !viewCityList.value;
 }
+// new Map([
+//     [
+//         "Cairo",
+//         "-290692"
+//     ],
+//     [
+//         "Hurghada",
+//         "-290029"
+//     ],
+//     [
+//         "Sharm El Sheikh",
+//         "-302053"
+//     ]
+// ])
 function handleHomeSearchForm(e) {
   e.preventDefault();
   let flag = true;
   let inDateFormatted = "";
   let outDateFormatted = "";
 
+  // cityInput.value = "Cairo"
+  // cityInputId.value = "-290692"
+   
   if (!cityInput.value) {
     searchFormErrors.cityError = true;
     flag = false;
-  }
-  if (checkInInput.value) {
-   // console.log("in  ",checkInInput.value)
-    inDateFormatted = formatDate(checkInInput.value);
+    console.log("error name");
   } else {
+    searchFormErrors.formError = false;
+  }
+  // it can't turn " " to date which is the initail value
+  if (!isNaN(checkInInput.value.getTime())) {
+    // console.log("yes date",checkInInput)
+    inDateFormatted = formatDate(checkInInput.value);
+    searchFormErrors.date1Error = false;
+  } else {
+    // console.log("inDate in form submit  ",checkInInput.value)
     searchFormErrors.date1Error = true;
     flag = false;
   }
-  if (checkOutInput.value) {
-    
-  //  console.log("out   ",  checkOutInput.value)
+  if (!isNaN(checkOutInput.value.getTime())) {
     outDateFormatted = formatDate(checkOutInput.value);
+    searchFormErrors.date2Error = false;
   } else {
     searchFormErrors.date2Error = true;
     flag = false;
   }
-  if (checkOutInput.value.getDate() == checkInInput.value.getDate()) {
+
+  if (checkInInput.value.getTime() == checkOutInput.value.getTime()) {
     flag = false;
-    searchFormErrors.fromError = true;
+    searchFormErrors.formError = true;
+    formError.value = "Checkout and checkin date can't be at the same day";
+  } else if (checkOutInput.value.getTime() <= checkInInput.value.getTime()) {
+    flag = false;
+    searchFormErrors.formError = true;
+    formError.value =
+      "Checkout date must be atleast a day after the checkin date";
+  } else {
+    searchFormErrors.formError = false;
   }
-  // set rooms  & guests default value 
-  if (!roomsInput.value) roomsInput.value = 1
-  if (!guestsInput.value) guestsInput.value = 1
+
+  // set rooms  & guests default value
+  if (!roomsInput.value) roomsInput.value = 1;
+  if (!guestsInput.value) guestsInput.value = 1;
 
   //updateStore
   updatehotelsSearchState(
@@ -198,38 +236,20 @@ function handleHomeSearchForm(e) {
     outDateFormatted
   );
 
-  // console.log(
-  //   "form values refs ",
-  //   cityInput.value,
-  //   cityInputId.value,
-  //   guestsInput.value,
-  //   roomsInput.value,
-  //   inDateFormatted,
-  //   outDateFormatted
-  // );
 
-  console.log("form check ", searchHotelsData.value ,"---",flag);
-
-  // getHotels(
-  //   cityInputId.value,
-  //   inDateFormatted,
-  //   outDateFormatted
-  // );
+  // console.log("inside form check ", searchHotelsData.value, "---", flag);
 
   if (flag == true) {
-    //simulate submit at hotels 
-     emit('searchSubmitted')
+    //simulate submit at hotels
+    emit("searchSubmitted");
     if (route.fullPath != "/hotels") {
-      console.log(" imma navigating ",route.fullPath)
-      router.push({ path: "hotels" });
+      // const uthenticated = localStorage.getItem('authenticated')
+      router.push("/hotels");
     }
   }
 }
 /*--------------------------------------------------------------------*/
 //watchers
-watchEffect(() => {
-  console.log(checkInInput.value);
-});
 /*--------------------------------------------------------------------*/
 //definations
 const { props, attrs } = defineProps({});

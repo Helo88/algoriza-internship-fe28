@@ -1,6 +1,6 @@
 <template>
 <div class="bg-zinc-100 min-h-[100vh]">
-    <div class="mx-[50px] lg:mx-[205px] p-1 border-2 border-rose-300">
+    <div class="mx-[50px] lg:mx-[205px] p-1 ">
       <h1 class="text-zinc-900 text-[32px] font-semibold mt-[60px] mb-[30px]">
         My trips
       </h1>
@@ -10,8 +10,7 @@
      :hotelName="trip.hotelName"
      :rate="Number(trip.rate)"
      :reviewCount="trip.reviewCount"
-     :checkIn="trip.inDate"
-     :checkOut="trip.outDate"
+  
      @view-trip-details="handleViewTrip(trip.hotelId,trip.rate,trip.reviewCount)"
      class="mb-6"
      />
@@ -31,6 +30,7 @@ import TripCard from "../../components/TripCard.vue";
 import Warning from "../../../components/Warning.vue";
 //functions
 import { useHotelsStore } from "../../store";
+import {formatFullNameDate} from "../../composables.js"
 /*--------------------------------------------------------------------*/
 //definations
 const props = defineProps({
@@ -52,6 +52,7 @@ function handleViewTrip(hotelId, rate, reviewCount){
     router.push({ path: `hotel/${hotelId}/${rate}/${reviewCount}`  });
 
 }
+
 /*--------------------------------------------------------------------*/
 //watchers
 

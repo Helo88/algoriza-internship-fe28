@@ -58,7 +58,7 @@ export const getHotels = async (
     console.log("count  ", resultsCount);
   } catch (error) {
     error = error.response;
-    console.log("An error oocured ,please try agin , hotels ");
+    console.log("An error oocured ,please try again",error);
   }
   return { hotels, error, resultsCount };
 };

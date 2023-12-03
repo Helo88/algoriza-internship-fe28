@@ -112,7 +112,7 @@ const isCheckoutPage = computed(() => {
 /*--------------------------------------------------------------------*/
 //methods
 onMounted(() => {
-  console.log("nav auth ", authenticated.value);
+ // console.log("nav auth ", authenticated.value);
 });
 function handleUserDropDown(option) {
   showDropDown.value=false
