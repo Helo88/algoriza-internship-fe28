@@ -44,7 +44,7 @@ This Vue.js app, built using Vite, utilizes the Rapid Fire API to display hotel 
 
 1. **Clone the repository:**
 
-   bash
+
    git clone https://github.com/Helo88/algoriza-internship-fe28.git
 
 2. **Navigate to the project directory:**
@@ -58,6 +58,7 @@ This Vue.js app, built using Vite, utilizes the Rapid Fire API to display hotel 
    # or
 
    yarn install
+4. add your rapid api key to network index.js file 
 
 ### Development
 
@@ -71,7 +72,7 @@ Visit [http://localhost:5173](http://localhost:5173) in your browser to view the
 
 ### Build for Production
 
-bash
+
 npm run build
 
 # or
@@ -82,10 +83,10 @@ The production-ready files will be generated in the `dist` directory.
 
 ## Configuration
 
-### Rapid Fire API
+### Rapid API
 
-- Create an account on [Rapid Fire API]([https://rapidapi.com/](https://rapidapi.com/DataCrawler/api/booking-com15/) and obtain an API key.
-- Add the API key to the project configuration.
+- Create an account on [Rapid API]([https://rapidapi.com/](https://rapidapi.com/DataCrawler/api/booking-com15/) and obtain an API key.
+- Add the API key to the project network/index.js file 
 
 ### Authentication
 
